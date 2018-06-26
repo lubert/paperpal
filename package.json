@@ -1,0 +1,19 @@
+{
+  "name": "paperpal",
+  "version": "0.0.1",
+  "description": "Replay HTTP requests from logs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lubert/paperpal.git"
+  },
+  "author": "lubert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lubert/paperpal/issues"
+  },
+  "homepage": "https://github.com/lubert/paperpal#readme"
+}
