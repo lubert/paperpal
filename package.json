@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lubert/paperpal/issues"
   },
-  "homepage": "https://github.com/lubert/paperpal#readme"
+  "homepage": "https://github.com/lubert/paperpal#readme",
+  "dependencies": {
+    "commander": "^2.15.1"
+  }
 }
