@@ -1,6 +1,6 @@
 {
   "name": "paperpal",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Replay HTTP requests from logs",
   "main": "index.js",
   "scripts": {
