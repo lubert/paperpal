@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const readline = require('readline');
-
 const got = require('got');
+const lineByLine = require('n-readlines');
 const program = require('commander');
 
 let filePath;
@@ -25,29 +23,6 @@ if (!process.argv.slice(2).length) {
 }
 
 if (!program.checkCertificate) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-const rl = readline.createInterface({
-  input: fs.createReadStream(filePath)
-});
-
-const exclude = program.exclude ? new RegExp(program.exclude, 'g') : null;
-const regex = /(?<=GET )[^\s]*/g;
-
-rl.on('line', function(line) {
-  if (line.match(exclude)) return;
-  const match = line.match(regex);
-  if (!match) return;
-
-  let path = match[0];
-  if (program.url) path = program.url + path;
-  queueRequest(path);
-});
-
-let promise = Promise.resolve();
-
-function queueRequest(path) {
-  promise = promise.then(() => request(path));
-}
 
 const reqOpt = {};
 if (program.cookie) {
@@ -71,3 +46,25 @@ function request(path) {
     console.log(' ' + err.statusCode);
   });
 }
+
+const exclude = program.exclude ? new RegExp(program.exclude, 'g') : null;
+const regex = /(?<=GET )[^\s]*/g;
+
+const liner = new lineByLine(filePath);
+
+function promiseLoop(iterator, callback) {
+  var next = iterator.next();
+  if (next === false) return Promise.resolve();
+  return callback(next).then(() => promiseLoop(iterator, callback));
+}
+
+promiseLoop(liner, function(buffer) {
+  const line = buffer.toString('utf8');
+  if (line.match(exclude)) return Promise.resolve();
+  const match = line.match(regex);
+  if (!match) return Promise.resolve();
+
+  let path = match[0];
+  if (program.url) path = program.url + path;
+  return request(path);
+});
