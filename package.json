@@ -18,6 +18,7 @@
   "homepage": "https://github.com/lubert/paperpal#readme",
   "dependencies": {
     "commander": "^2.15.1",
-    "got": "^8.3.1"
+    "got": "^8.3.1",
+    "n-readlines": "^1.0.0"
   }
 }
